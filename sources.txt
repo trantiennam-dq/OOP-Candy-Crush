@@ -35,8 +35,11 @@ C:\Users\Admin\Downloads\Candy-Crush\src\main\state\MatchingState.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\state\RevertingState.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\state\SugarCrushState.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\state\SwappingState.java
+C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\AssetManager.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\GamePanel.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\InputHandler.java
+C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\LevelSelectPanel.java
+C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\StartPanel.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\renderer\ISpecialEffectRenderer.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\renderer\ParticleRenderer.java
 C:\Users\Admin\Downloads\Candy-Crush\src\main\ui\renderer\SpecialCandyRendererRegistry.java

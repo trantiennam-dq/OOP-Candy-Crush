@@ -57,8 +57,15 @@ public class GameManager implements ICandyDestroyListener {
     }
 
     public void start() {
+        this.state = idleState;
         LevelManager.getInstance().resetCurrentLevel();
         scoreManager.reset();
+        
+        for (int r = 0; r < board.getRows(); r++) {
+            for (int c = 0; c < board.getCols(); c++) {
+                board.setCandy(r, c, null);
+            }
+        }
         
         gravityLogic.refill(board);
         List<MatchResult> initialMatches = matchLogic.findMatches(board);

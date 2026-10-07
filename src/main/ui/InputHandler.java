@@ -13,6 +13,9 @@ public class InputHandler extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (main.model.LevelManager.getInstance().isGameOver()) {
+            return;
+        }
         int col = (e.getX() - GamePanel.OFFSET_X) / GamePanel.CELL_SIZE;
         int row = (e.getY() - GamePanel.OFFSET_Y) / GamePanel.CELL_SIZE;
         

@@ -11,6 +11,8 @@ import main.logic.IMatchLogic;
 import main.logic.ISpecialCandyLogic;
 import main.logic.SelectionController;
 import main.ui.GamePanel;
+import main.ui.StartPanel;
+import main.ui.LevelSelectPanel;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,26 +23,46 @@ public class Main {
             JFrame frame = new JFrame("Candy Crush");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+            javax.swing.JPanel cardPanel = new javax.swing.JPanel(new java.awt.CardLayout());
+
             GameManager gameManager = new GameManager(matchLogic, gravityLogic, specialCandyLogic);
             SelectionController selectionController = new SelectionController(gameManager,
                     gameManager.getBoard());
 
-            GamePanel panel = new GamePanel(gameManager, selectionController);
-            gameManager.setRepaintCallback(() -> panel.repaint());
+            GamePanel gamePanel = new GamePanel(gameManager, selectionController);
+            gameManager.setRepaintCallback(() -> gamePanel.repaint());
+            gamePanel.addMouseListener(new main.ui.InputHandler(selectionController));
+            gamePanel.addMouseMotionListener(new main.ui.InputHandler(selectionController)); // In case we need motion
 
-            panel.addMouseListener(new main.ui.InputHandler(selectionController));
+            Runnable showLevelSelect = () -> {
+                java.awt.CardLayout cl = (java.awt.CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "LEVEL_SELECT");
+            };
 
-            frame.add(panel);
-            frame.setSize(600, 650);
+            Runnable showStart = () -> {
+                java.awt.CardLayout cl = (java.awt.CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "START");
+            };
+
+            StartPanel startPanel = new StartPanel(showLevelSelect);
+
+            LevelSelectPanel levelSelectPanel = new LevelSelectPanel((level) -> {
+                main.model.LevelManager.getInstance().startLevel(level);
+                gameManager.start();
+                java.awt.CardLayout cl = (java.awt.CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "GAME");
+            }, showStart);
+
+            gamePanel.setMenuCallback(showLevelSelect);
+
+            cardPanel.add(startPanel, "START");
+            cardPanel.add(levelSelectPanel, "LEVEL_SELECT");
+            cardPanel.add(gamePanel, "GAME");
+
+            frame.add(cardPanel);
+            frame.setSize(800, 650);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-
-            try {
-                gameManager.start();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         });
     }
 }

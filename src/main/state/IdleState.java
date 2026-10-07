@@ -20,12 +20,9 @@ public class IdleState implements IGameState {
             if (lm.getMovesLeft() > 0) {
                 manager.setState(manager.getSugarCrushState());
             } else {
-                lm.nextLevel();
-                if (!lm.isGameOver()) {
-                    manager.start();
-                } else {
-                    manager.setState(manager.getGameOverState());
-                }
+                lm.setGameOver(true);
+                lm.saveScoreIfHigher(lm.getCurrentLevel(), ScoreManager.getInstance().getScore());
+                manager.setState(manager.getGameOverState());
             }
             return;
         }
@@ -38,6 +35,7 @@ public class IdleState implements IGameState {
 
         if (lm.getMovesLeft() <= 0 && ScoreManager.getInstance().getScore() < lm.getTargetScore()) {
             lm.setGameOver(true);
+            lm.saveScoreIfHigher(lm.getCurrentLevel(), ScoreManager.getInstance().getScore());
             manager.setState(manager.getGameOverState());
             return;
         }

@@ -7,6 +7,7 @@ public class LevelManager {
     private int targetScore = 500;
     private boolean gameOver = false;
     private boolean gameWon = false;
+    private java.util.Map<Integer, Integer> highScores = new java.util.HashMap<>();
 
     private LevelManager() {}
 
@@ -22,12 +23,34 @@ public class LevelManager {
         this.movesLeft = 25;
         this.gameOver = false;
         this.gameWon = false;
+        this.targetScore = getTargetScoreForLevel(level);
+    }
+
+    public int getTargetScoreForLevel(int level) {
         switch (level) {
-            case 1: this.targetScore = 500; break;
-            case 2: this.targetScore = 700; break;
-            case 3: this.targetScore = 900; break;
-            default: this.targetScore = 900; break;
+            case 1: return 500;
+            case 2: return 700;
+            case 3: return 900;
+            default: return 900;
         }
+    }
+
+    public int getHighScore(int level) {
+        return highScores.getOrDefault(level, 0);
+    }
+    
+    public void saveScoreIfHigher(int level, int score) {
+        int currentHigh = getHighScore(level);
+        if (score > currentHigh) {
+            highScores.put(level, score);
+        }
+    }
+
+    public static int calculateStars(int score, int targetScore) {
+        if (score >= targetScore * 3) return 3;
+        if (score >= targetScore * 2) return 2;
+        if (score >= targetScore) return 1;
+        return 0;
     }
 
     public void resetCurrentLevel() {
